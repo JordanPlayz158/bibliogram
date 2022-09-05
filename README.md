@@ -1,6 +1,6 @@
-# [Bibliogram](https://bibliogram.art)
+# [Bibliogram](https://bibliogram.jordanplayz158.xyz)
 
-[![Humane Tech badge.](https://meta.bibliogram.art/art/humane-tech-badge.svg)](https://github.com/humanetech-community/awesome-humane-tech#readme)
+[![Humane Tech badge.](art/humane-tech-badge.svg)](https://github.com/humanetech-community/awesome-humane-tech#readme)
 ![License: AGPL.](https://img.shields.io/badge/license-AGPL-%233897f0)
 [![Discussion on Matrix.](https://img.shields.io/matrix/bibliogram:matrix.org?label=%23bibliogram&logo=matrix)](https://matrix.to/#/#bibliogram:matrix.org)
 
@@ -14,12 +14,12 @@
 - [Full documentation][docs folder]
 - [Discussion on Matrix][matrix]
 
-[project]: https://sr.ht/~cadence/bibliogram/
-[main repo]: https://git.sr.ht/~cadence/bibliogram
-[issues]: https://todo.sr.ht/~cadence/bibliogram-issues
-[list]: https://lists.sr.ht/~cadence/bibliogram-devel
-[updater repo]: https://git.sr.ht/~cadence/bibliogram-updater
-[docs folder]: https://git.sr.ht/~cadence/bibliogram-docs/tree/master/docs
+[project]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram/
+[main repo]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram
+[issues]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram/issues
+[list]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram/pulls
+[updater repo]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram-updater
+[docs folder]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram-docs/src/branch/master/docs
 
 ## Bibliogram is an alternative front-end for Instagram.
 
@@ -28,7 +28,7 @@ and doesn't urge you to sign up.
 
 See Bibliogram's features: [`docs/Features.md`][features]
 
-[features]: https://git.sr.ht/~cadence/bibliogram-docs/tree/master/docs/Features.md
+[features]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram-docs/src/branch/master/docs/Features.md
 
 Join the Bibliogram discussion room on Matrix:
 [#bibliogram:matrix.org][matrix]
@@ -42,28 +42,28 @@ See also: [Invidious, a front-end for YouTube.][invidious repo]
 ## Instances
 
 The official instance is on
-[https://bibliogram.art](https://bibliogram.art).
+[https://bibliogram.jordanplayz158.xyz](https://bibliogram.jordanplayz158.xyz).
 
 Community instances are listed in [`docs/Instances.md`][instances].
 Submit a patchset to add your own instance to that list.
 
-[instances]: https://git.sr.ht/~cadence/bibliogram-docs/tree/master/docs/Instances.md
+[instances]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram-docs/src/branch/master/docs/Instances.md
 
 ## Installing
 
 See [`docs/Installing (basic).md`][basic] and
 [`docs/Installing (extended).md`][extended].
 
-[basic]: https://git.sr.ht/~cadence/bibliogram-docs/tree/master/docs/Installing%20%28basic%29.md
-[extended]: https://git.sr.ht/~cadence/bibliogram-docs/tree/master/docs/Installing%20%28extended%29.md
+[basic]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram-docs/src/branch/master/docs/Installing%20%28basic%29.md
+[extended]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram-docs/src/branch/master/docs/Installing%20%28extended%29.md
 
 ## Contributing
 
 - [Learn how to submit a patchset][patchset docs]
 - [Translate for your language][translating]
 
-[patchset docs]: https://git.sr.ht/~cadence/bibliogram-docs/tree/master/docs/Submitting%20a%20patchset.md
-[translating]: https://git.sr.ht/~cadence/bibliogram-docs/tree/master/docs/Translating.md
+[patchset docs]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram-docs/src/branch/master/docs/Submitting%20a%20patchset.md
+[translating]: https://git.jordanplayz158.xyz/JordanPlayz158/bibliogram-docs/src/branch/master/docs/Translating.md
 
 ## Credits & license information
 
