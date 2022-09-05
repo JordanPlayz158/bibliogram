@@ -68,7 +68,7 @@ function fetchUserFromHTML(username) {
 				// require down here or have to deal with require loop. require cache will take care of it anyway.
 				// User -> Timeline -> TimelineEntry -> collectors -/> User
 				const User = require("./structures/User")
-				const userData = selectExtractor(text)
+				const userData = await selectExtractor(text)
 				const user = new User(userData)
 				history.report("user", true)
 				if (constants.caching.db_user_id) {

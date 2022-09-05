@@ -125,6 +125,12 @@ class Parser {
 
 	/**
 	 * Seek to or past the next occurance of the string.
+	 *
+	 * moveToMatch moves the cursors current position to the position of the index (if it is not -1)
+	 *
+	 * useEnd adds the length of the text you supplied through toFind in the final index
+	 *  (so the text from toFind will be included in the text if you slice from index)
+	 *
 	 * @param {string} toFind
 	 * @param {{moveToMatch?: boolean, useEnd?: boolean}} options both default to false
 	 */
@@ -137,6 +143,61 @@ class Parser {
 			if (options.moveToMatch) this.cursor = index
 		}
 		return index
+	}
+
+	/**
+	 * Seek to or past the next occurance of the string BACKWARDS.
+	 *
+	 * moveToMatch moves the cursors current position to the position of the index (if it is not -1)
+	 *
+	 * @param {string} toFind
+	 * @param {{moveToMatch?: boolean}} options both default to false
+	 */
+	rewind(toFind, options = {}) {
+		if (options.moveToMatch === undefined) options.moveToMatch = false
+		let index = this.string.lastIndexOf(toFind, this.cursor)
+
+		if (index !== -1) {
+			if (options.moveToMatch) this.cursor = index
+		}
+		return index
+	}
+
+	findClosingCurlyBracket() {
+		let originalPosition = this.cursor
+		let openCurlyBraceIndex = this.seek("{")
+		const firstClosedCurlyBraceIndex = this.seek("}")
+
+		let openCurlyBraceCount = 0
+		while(openCurlyBraceIndex < firstClosedCurlyBraceIndex) {
+			openCurlyBraceIndex = this.seek("{", {moveToMatch: true, useEnd: true})
+			this.store()
+
+			if(openCurlyBraceIndex !== -1 && openCurlyBraceIndex < firstClosedCurlyBraceIndex) {
+				openCurlyBraceCount++;
+			} else {
+				break
+			}
+		}
+
+		this.cursor = originalPosition
+
+		let closingCurlyBraceCount = 0
+		let closingCurlyBraceIndex = 0
+		while(openCurlyBraceCount > closingCurlyBraceCount) {
+			closingCurlyBraceIndex = this.seek("}", {moveToMatch: true, useEnd: true})
+			this.store()
+
+			if(closingCurlyBraceIndex !== -1 && openCurlyBraceCount > closingCurlyBraceCount) {
+				closingCurlyBraceCount++;
+			} else {
+				break
+			}
+		}
+
+		this.cursor = originalPosition
+
+		return closingCurlyBraceIndex;
 	}
 
 	/**
