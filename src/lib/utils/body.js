@@ -1,13 +1,22 @@
 const constants = require("../constants")
 const {Parser} = require("./parser/parser")
-const switcher = require("./torswitcher");
+const switcher = require("./torswitcher")
+const {log} = require("pinski/util/common")
+
 
 function selectExtractor(text) {
-	if (text.includes("window._sharedData = ")) {
+	const sharedDataString = "window._sharedData = "
+	const preloaderString = "PolarisQueryPreloaderCache"
+	const iWebString = "web_profile_info"
+
+	if (text.includes(sharedDataString)) {
+		log(`"${sharedDataString}" detected, using shared data extractor`, 'DEBUG')
 		return extractSharedData(text)
-	} else if (text.includes("PolarisQueryPreloaderCache")) {
+	} else if (text.includes(preloaderString)) {
+		log(`"${preloaderString}" detected, using preloader extractor`, 'DEBUG')
 		return extractPreloader(text)
-	} else if (text.includes("web_profile_info")) {
+	} else if (text.includes(iWebString)) {
+		log(`"${iWebString}" detected, using iWeb extractor`, 'DEBUG')
 		return extractIWeb(text)
 	} else {
 		throw constants.symbols.extractor_results.NO_SHARED_DATA
@@ -70,8 +79,10 @@ function extractPreloader(text) {
  * @returns {any}
  */
 function extractIWeb(text) {
+	const iWebString = "web_profile_info\\/\","
+
 	const parser = new Parser(text)
-	const index = parser.seek("web_profile_info\\/\",", {moveToMatch: true, useEnd: true})
+	const index = parser.seek(iWebString, {moveToMatch: true, useEnd: true})
 	if (index === -1) {
 		// Maybe the profile is age restricted?
 		const age = getRestrictedAge(text)
@@ -81,35 +92,39 @@ function extractIWeb(text) {
 		throw constants.symbols.extractor_results.NO_SHARED_DATA
 	}
 
-	// Uncomment for debugging
-	//console.log("index: " + index)
+	log(`iWeb "${iWebString}" index: ${index}`, 'VERBOSE')
 
 	// Change this text to get the desired object that's enclosing the string
 	// let enclosingObject = '"profile":{'
 	let enclosingObject = '"request":{'
 
 	parser.rewind(enclosingObject, {moveToMatch: true})
-	//console.log("parser.cursor: " + parser.cursor)
+	log(`iWeb enclosing object "${enclosingObject}" starting index: ${parser.cursor}`, 'VERBOSE')
 
 	const endObjectIndex = parser.findClosingCurlyBracket()
-	//console.log(endObjectIndex)
+	log(`iWeb enclosing object closing curly brace "}" closing index: ${endObjectIndex}`, 'VERBOSE')
 
 	parser.cursor += enclosingObject.length - 1
 	let requestDataString = parser.slice((endObjectIndex - parser.cursor))
-	//console.log(requestDataString)
+	log(`iWeb full object before parsing as json "${requestDataString}"`, 'VERBOSE')
 
 	const requestData = JSON.parse(requestDataString)
-	console.log(requestData)
+	log(`iWeb full object json "${requestData}"`, 'DEBUG')
 
 	const queryData = requestData.params.query;
+	log(`iWeb object extracted query parameters "${queryData}"`, 'VERBOSE')
 
 	const params = new URLSearchParams()
 
 	Object.keys(queryData).forEach(function(k){
 		params.set(k, queryData[k]);
 	});
+	log(`iWeb URLSearchParams from extracted query parameters "${params}"`, 'VERBOSE')
 
-	return switcher.request("user_html", `https://i.instagram.com${requestData.url}?${params}`, async res => {
+	const url = `https://i.instagram.com${requestData.url}?${params}`
+	log(`Fully formed iWeb Lookup URL "${url}"`, 'DEBUG')
+
+	return switcher.request("user_html", url, async res => {
 			if (res.status === 301) throw constants.symbols.ENDPOINT_OVERRIDDEN
 			if (res.status === 302) throw constants.symbols.INSTAGRAM_DEMANDS_LOGIN
 			if (res.status === 429) throw constants.symbols.RATE_LIMITED
@@ -119,7 +134,11 @@ function extractIWeb(text) {
 			const json = await g.json()
 			// require down here or have to deal with require loop. require cache will take care of it anyway.
 			// User -> Timeline -> TimelineEntry -> collectors -/> User
-			return json.data.user
+
+			const user = json.data.user
+			log(`Final User Object Passed back to collectors "${user}"`, 'DEBUG')
+
+			return user
 		})
 }
 
